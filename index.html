@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming Optimization Toolkit | DAA Capstone Project</title>
+    <meta name="description" content="Dynamic Programming Optimization Toolkit - Interactive 0/1 Knapsack visualizer, manual DP table challenge, complexity benchmarks, and pure C source code.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Background Particle Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Professional Navbar -->
+    <header class="navbar">
+        <a href="#home" class="brand">
+            <div class="brand-icon">DP</div>
+            <span>DP Optimization Toolkit</span>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#foundations">DP Foundations</a></li>
+            <li><a href="#knapsack">0/1 Knapsack</a></li>
+            <li><a href="#challenge">Table Challenge</a></li>
+            <li><a href="#floyd">Floyd-Warshall</a></li>
+            <li><a href="#benchmark">Complexity Analysis</a></li>
+            <li><a href="#source-code">C Source Code</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button id="btn-toggle-presentation" class="btn btn-accent btn-sm">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span>Slides Deck (P)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN PAGE CONTENT -->
+    <main>
+
+        <!-- ==============================================================
+             1. HOME / HERO SECTION
+             ============================================================== -->
+        <section id="home" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="hero-pill">
+                        <span class="dot"></span>
+                        <span>DAA College Project &bull; Group 12</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        Dynamic Programming <br>
+                        <span class="gradient-text">Optimization Toolkit</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A clean, interactive educational platform built to master and demonstrate Dynamic Programming. 
+                        Visualize 2D table construction step-by-step for the <strong>0/1 Knapsack Problem</strong>, test your skills in the manual table challenge, 
+                        explore $O(W)$ space optimization, and examine complete C source implementations.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#knapsack" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            <span>Explore 0/1 Knapsack</span>
+                        </a>
+                        <a href="#challenge" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span>DP Table Challenge</span>
+                        </a>
+                        <a href="#source-code" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            <span>C Source Code</span>
+                        </a>
+                    </div>
+
+                    <div class="hero-stats-row">
+                        <div class="hero-stat-item">
+                            <h4>O(N &times; W)</h4>
+                            <p>Polynomial Time Bound</p>
+                        </div>
+                        <div class="hero-stat-item">
+                            <h4>O(W)</h4>
+                            <p>Space-Optimized 1D State</p>
+                        </div>
+                        <div class="hero-stat-item">
+                            <h4>Pure C</h4>
+                            <p>Native Algorithm Code</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visualizer Preview Card -->
+                <div class="hero-visual-card">
+                    <div class="hero-card-header">
+                        <div class="terminal-dots">
+                            <span class="dot-red"></span>
+                            <span class="dot-yellow"></span>
+                            <span class="dot-green"></span>
+                        </div>
+                        <span class="badge badge-cyan">Subproblem State Preview</span>
+                    </div>
+
+                    <div class="hero-dag-preview">
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.25rem;">
+                            Overlapping Subproblem Tree: <code>Knapsack(i, w)</code>
+                        </div>
+                        <div class="dag-level">
+                            <div class="dag-node active">K(4, 5)</div>
+                        </div>
+                        <div style="text-align:center; color: var(--text-muted); font-size: 0.75rem;">&darr; &searr;</div>
+                        <div class="dag-level">
+                            <div class="dag-node">K(3, 5)</div>
+                            <div class="dag-node">K(3, 0)</div>
+                        </div>
+                        <div style="text-align:center; color: var(--text-muted); font-size: 0.75rem;">&swarr; &searr; &emsp; &swarr; &searr;</div>
+                        <div class="dag-level">
+                            <div class="dag-node overlap">K(2, 5)</div>
+                            <div class="dag-node overlap">K(2, 1)</div>
+                            <div class="dag-node overlap">K(2, 0)</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; padding: 0.85rem; background: rgba(6, 182, 212, 0.08); border-radius: var(--radius-sm); border: 1px solid rgba(6, 182, 212, 0.2); font-size: 0.82rem; color: #bae6fd;">
+                        <strong style="color:var(--accent-cyan);">Core Idea:</strong> Dynamic programming stores the answer to each subproblem $K(i, w)$ in memory so it is calculated once, converting exponential $O(2^N)$ recursion into efficient $O(N \cdot W)$ table evaluation.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBMITTED BY (TEAM GROUP 12) -->
+            <div class="container" style="margin-top: 3.5rem;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
+                    <div>
+                        <span class="badge badge-emerald" style="margin-bottom:0.35rem;">College Lab Project Submission</span>
+                        <h3 style="font-size: 1.25rem; color: #fff; font-weight:700;">SUBMITTED BY: GROUP 12</h3>
+                    </div>
+                    <span style="font-size: 0.82rem; color: var(--text-muted);">Design and Analysis of Algorithms</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+                    <!-- Student 1 -->
+                    <div class="glass-card" style="padding: 1.25rem; border-top: 3px solid var(--accent-cyan);">
+                        <span class="badge badge-cyan" style="margin-bottom: 0.5rem;">Student 1</span>
+                        <h4 style="color:#fff; font-size: 1.1rem; margin-bottom: 0.25rem;">A. PAVAN KUMAR</h4>
+                        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-cyan); font-weight:600; margin-bottom: 0.6rem;">Reg No: AP25110100011</div>
+                        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height:1.5;">
+                            <strong>Allotted Role:</strong> 0/1 Knapsack Problem Formulation, Recurrence Relation &amp; Greedy Strategy Failure Proof.
+                        </p>
+                    </div>
+
+                    <!-- Student 2 -->
+                    <div class="glass-card" style="padding: 1.25rem; border-top: 3px solid #60a5fa;">
+                        <span class="badge badge-indigo" style="margin-bottom: 0.5rem;">Student 2</span>
+                        <h4 style="color:#fff; font-size: 1.1rem; margin-bottom: 0.25rem;">SATHWIK. M</h4>
+                        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: #60a5fa; font-weight:600; margin-bottom: 0.6rem;">Reg No: AP25110100015</div>
+                        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height:1.5;">
+                            <strong>Allotted Role:</strong> 2D DP Table Construction, Step-by-Step Matrix Walkthrough &amp; The DP Table Challenge.
+                        </p>
+                    </div>
+
+                    <!-- Student 3 -->
+                    <div class="glass-card" style="padding: 1.25rem; border-top: 3px solid var(--accent-emerald);">
+                        <span class="badge badge-emerald" style="margin-bottom: 0.5rem;">Student 3</span>
+                        <h4 style="color:#fff; font-size: 1.1rem; margin-bottom: 0.25rem;">B. JITHENDRA</h4>
+                        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-emerald); font-weight:600; margin-bottom: 0.6rem;">Reg No: AP25110100026</div>
+                        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height:1.5;">
+                            <strong>Allotted Role:</strong> All-Pairs Shortest Path (Floyd-Warshall) Application, Subproblem Reuse &amp; Backtracking Item Selection.
+                        </p>
+                    </div>
+
+                    <!-- Student 4 -->
+                    <div class="glass-card" style="padding: 1.25rem; border-top: 3px solid var(--accent-amber);">
+                        <span class="badge badge-amber" style="margin-bottom: 0.5rem;">Student 4</span>
+                        <h4 style="color:#fff; font-size: 1.1rem; margin-bottom: 0.25rem;">DARSI BHARANI</h4>
+                        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-amber); font-weight:600; margin-bottom: 0.6rem;">Reg No: AP25110100027</div>
+                        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height:1.5;">
+                            <strong>Allotted Role:</strong> Complexity Analysis, Benchmarks, $O(W)$ Space Optimization &amp; Native C Implementations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             2. DYNAMIC PROGRAMMING FOUNDATIONS
+             ============================================================== -->
+        <section id="foundations">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge badge-indigo" style="margin-bottom: 0.75rem;">Core Concepts</div>
+                    <h2 class="section-title">Introduction to Dynamic Programming</h2>
+                    <p class="section-subtitle">
+                        Dynamic Programming (DP) is an algorithmic optimization technique developed by Richard Bellman in the 1950s. 
+                        It solves complex problems by breaking them into smaller subproblems, solving each subproblem once, and remembering the results.
+                    </p>
+                </div>
+
+                <!-- Two Pillars of DP -->
+                <div class="foundations-grid">
+                    <div class="glass-card pillar-card">
+                        <div class="pillar-header">
+                            <div class="pillar-icon icon-overlap">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>
+                            </div>
+                            <div>
+                                <h3 style="font-size:1.15rem; color:#fff;">1. Overlapping Subproblems</h3>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Avoiding repeated work</p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                            A problem has overlapping subproblems when a recursive approach computes the exact same subproblem repeatedly. 
+                            Instead of re-evaluating identical branches millions of times, DP stores calculated answers in a table for instant $O(1)$ lookups.
+                        </p>
+                        <div style="background: rgba(10, 14, 23, 0.7); padding: 0.75rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.82rem; color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.2);">
+                            Example: In Fibonacci recursion, Fib(5) calculates Fib(3) twice and Fib(2) three times. DP reduces operations from $O(2^N)$ to $O(N)$.
+                        </div>
+                    </div>
+
+                    <div class="glass-card pillar-card">
+                        <div class="pillar-header">
+                            <div class="pillar-icon icon-substructure">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                            </div>
+                            <div>
+                                <h3 style="font-size:1.15rem; color:#fff;">2. Optimal Substructure</h3>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Composing solutions</p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+                            A problem has optimal substructure if an optimal solution to the overall problem can be constructed from optimal solutions to its subproblems. 
+                            If the best package under weight $W$ includes item $i$, then the remaining weight $W - w_i$ must also be packed optimally.
+                        </p>
+                        <div style="background: rgba(10, 14, 23, 0.7); padding: 0.75rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.82rem; color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.2);">
+                            Principle: Optimal choice at step $i$ = $\max(\text{Exclude item}, \; \text{Include item} + \text{Optimal remainder})$.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="glass-card" style="margin-bottom: 2.5rem;">
+                    <h3 style="margin-bottom: 1.25rem; font-size: 1.2rem; color:#fff;">Comparison of Algorithmic Approaches</h3>
+                    <div class="comparison-table-wrapper">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Paradigm</th>
+                                    <th>Approach</th>
+                                    <th>Data Structure</th>
+                                    <th>Time Complexity</th>
+                                    <th>Space Overhead</th>
+                                    <th>Key Feature</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong style="color: #f87171;">Naive Recursion</strong></td>
+                                    <td>Top-Down</td>
+                                    <td>Call Stack only</td>
+                                    <td>$O(2^N)$ Exponential</td>
+                                    <td>$O(N)$ Recursion Stack</td>
+                                    <td>Recomputes identical subtrees repeatedly; slow for large $N$.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #60a5fa;">Top-Down Memoization</strong></td>
+                                    <td>Top-Down</td>
+                                    <td>Lookup Cache Table</td>
+                                    <td>$O(N \cdot W)$ Polynomial</td>
+                                    <td>$O(N \cdot W) + O(N)$ Stack</td>
+                                    <td>Computes subproblems on demand and caches results.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #34d399;">Bottom-Up Tabulation</strong></td>
+                                    <td>Bottom-Up</td>
+                                    <td>2D Matrix $(N+1) \times (W+1)$</td>
+                                    <td>$O(N \cdot W)$ Polynomial</td>
+                                    <td>$O(N \cdot W)$ Matrix</td>
+                                    <td>Iterative loop; avoids stack overhead; orderly state filling.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: var(--accent-cyan);">Space-Optimized DP</strong></td>
+                                    <td>Bottom-Up</td>
+                                    <td>1D Array of size $(W+1)$</td>
+                                    <td>$O(N \cdot W)$ Polynomial</td>
+                                    <td>$O(W)$ Linear Space</td>
+                                    <td>Traverses capacity backwards to eliminate redundant table rows.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Real-World Applications -->
+                <div class="section-header" style="margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.35rem; color:#fff;">Real-World Applications of Dynamic Programming</h3>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem;">
+                    <div class="glass-card" style="padding: 1.25rem;">
+                        <h4 style="color: var(--accent-cyan); margin-bottom: 0.4rem; font-size:1rem;">Resource & Budget Allocation</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Cloud server VM packing, investment portfolio budgeting, and cargo loading use knapsack DP to maximize profit under fixed capacity.
+                        </p>
+                    </div>
+                    <div class="glass-card" style="padding: 1.25rem;">
+                        <h4 style="color: #818cf8; margin-bottom: 0.4rem; font-size:1rem;">Bioinformatics & DNA Analysis</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Needleman-Wunsch and Smith-Waterman algorithms align DNA and protein sequences to detect genetic mutations using 2D DP matrices.
+                        </p>
+                    </div>
+                    <div class="glass-card" style="padding: 1.25rem;">
+                        <h4 style="color: var(--accent-emerald); margin-bottom: 0.4rem; font-size:1rem;">Text Processing & Version Control</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Levenshtein Edit Distance powers spell-checkers, auto-correct, and <code>git diff</code> by finding minimal insertions, deletions, and edits.
+                        </p>
+                    </div>
+                    <div class="glass-card" style="padding: 1.25rem;">
+                        <h4 style="color: var(--accent-amber); margin-bottom: 0.4rem; font-size:1rem;">Navigation & Shortest Routes</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                            Bellman-Ford and DAG shortest path algorithms dynamically calculate optimal travel routes across network routers and road networks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             3. 0/1 KNAPSACK PROBLEM - MAIN PROJECT DEMONSTRATION
+             ============================================================== -->
+        <section id="knapsack">
+            <div class="container">
+                <div class="section-header">
+                    <div style="display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <span class="badge badge-student"><span>Student 1 & 2:</span> Formulation & Table Construction</span>
+                    </div>
+                    <h2 class="section-title">0/1 Knapsack Problem Demonstration</h2>
+                    <p class="section-subtitle">
+                        Given $N$ items, each with a specific weight $w_i$ and value $v_i$, and a knapsack with maximum weight capacity $W$. 
+                        Find the subset of items that maximizes total value without exceeding capacity $W$.
+                    </p>
+                </div>
+
+                <div class="knapsack-dashboard">
+                    <!-- Left Sidebar -->
+                    <div class="knapsack-sidebar">
+                        <!-- Why 0/1 & Why Greedy Fails -->
+                        <div class="dataset-card">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 0.4rem; font-size:0.95rem;">Why is it Called "0/1"?</h4>
+                            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.75rem;">
+                                Each item can either be taken completely once ($x_i = 1$) or not taken ($x_i = 0$). Fractional selection is not allowed.
+                            </p>
+                            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 6px; padding: 0.65rem; font-size: 0.8rem; color: #fca5a5;">
+                                <strong>Why Greedy Fails:</strong> Sorting items by value/weight ratio works for fractional knapsack, but fails in 0/1 knapsack because high-ratio items can leave unused capacity that prevents fitting a better combination of items.
+                            </div>
+                        </div>
+
+                        <!-- Active Sample Dataset -->
+                        <div class="dataset-card">
+                            <div class="dataset-header">
+                                <h4 style="color: #fff; font-size: 0.95rem;">Sample Dataset</h4>
+                                <span class="badge badge-cyan" id="capacity-badge">Capacity W = 5</span>
+                            </div>
+
+                            <div class="item-list-container" id="item-list-container">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+
+                            <button id="btn-edit-dataset" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 0.85rem;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                <span>Change Capacity W</span>
+                            </button>
+                        </div>
+
+                        <!-- Mathematical Recurrence Formula -->
+                        <div class="recurrence-box">
+                            <h4 style="color: #a5b4fc; font-size: 0.95rem; margin-bottom: 0.4rem;">Recurrence Relation</h4>
+                            <div class="math-formula">
+                                <div><span class="keyword">State:</span> DP[i][w] = Max profit from first <code>i</code> items with capacity <code>w</code></div>
+                                <div style="margin-top: 0.4rem;"><span class="keyword">Base Cases:</span></div>
+                                <div style="padding-left: 0.75rem;">DP[0][w] = 0 &emsp; <span class="tok-com">// 0 items</span></div>
+                                <div style="padding-left: 0.75rem;">DP[i][0] = 0 &emsp; <span class="tok-com">// 0 capacity</span></div>
+                                <div style="margin-top: 0.4rem;"><span class="keyword">Formula:</span></div>
+                                <div style="padding-left: 0.75rem;">
+                                    If <span class="val">wt[i] &gt; w</span>:<br>
+                                    &nbsp;&nbsp;DP[i][w] = <span class="func">DP[i - 1][w]</span><br>
+                                    Else:<br>
+                                    &nbsp;&nbsp;DP[i][w] = <span class="func">max</span>(<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-str">DP[i - 1][w]</span>, <span class="tok-com">// Exclude</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-kw">DP[i - 1][w - wt[i]] + val[i]</span> <span class="tok-com">// Include</span><br>
+                                    &nbsp;&nbsp;)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Main Visualizer -->
+                    <div class="knapsack-main-view">
+                        <!-- Playback Controls -->
+                        <div class="control-bar">
+                            <div class="control-buttons-group">
+                                <button id="btn-step-prev" class="ctrl-btn" title="Previous Step">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+                                </button>
+                                <button id="btn-play-pause" class="ctrl-btn" style="background: rgba(6, 182, 212, 0.2); border-color: var(--accent-cyan); color: var(--accent-cyan);" title="Play / Pause">
+                                    <svg id="icon-play" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    <svg id="icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                </button>
+                                <button id="btn-step-next" class="ctrl-btn" title="Next Step">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                                </button>
+                                <button id="btn-reset" class="ctrl-btn" title="Reset Table">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                </button>
+                            </div>
+
+                            <div class="speed-selector">
+                                <span>Speed:</span>
+                                <button class="speed-btn" data-speed="1500">0.5x</button>
+                                <button class="speed-btn active" data-speed="800">1x</button>
+                                <button class="speed-btn" data-speed="350">2x</button>
+                                <button class="speed-btn" data-speed="100">4x</button>
+                            </div>
+
+                            <button id="btn-backtrack" class="btn btn-secondary btn-sm" disabled>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+                                <span>Trace Chosen Items</span>
+                            </button>
+                        </div>
+
+                        <!-- 2D DP Table Grid -->
+                        <div class="dp-table-container">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <div style="font-size: 0.82rem; color: var(--text-muted);">
+                                    Rows: <span style="color:var(--accent-cyan);">Items (i)</span> &bull; Columns: <span style="color:#a5b4fc;">Capacity (w)</span>
+                                </div>
+                                <div id="calc-progress" style="font-family: var(--font-mono); font-size: 0.82rem; color: var(--accent-cyan);">
+                                    Step 0 / 30
+                                </div>
+                            </div>
+
+                            <table class="dp-matrix" id="dp-table">
+                                <!-- Populated dynamically by JS -->
+                            </table>
+
+                            <!-- Legend -->
+                            <div class="legend-row">
+                                <div class="legend-item">
+                                    <span class="legend-color col-curr"></span>
+                                    <span>Current Cell DP[i][w]</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color col-exclude"></span>
+                                    <span>Exclude Option: DP[i-1][w]</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color col-include"></span>
+                                    <span>Include Option: DP[i-1][w - wt[i]]</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color col-chosen"></span>
+                                    <span>Backtrack Path (Selected Items)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step Explainer Card -->
+                        <div class="step-explainer-card">
+                            <div class="step-explainer-title">
+                                <span id="step-title-text">Ready to Execute</span>
+                                <span class="badge badge-cyan" id="step-decision-badge">Pending</span>
+                            </div>
+                            <p class="step-detail-text" id="step-detail-text">
+                                Press <strong>Play</strong> or click <strong>Next Step</strong> to observe how each cell in the 2D DP table is constructed according to the recurrence relation.
+                            </p>
+                            <div id="step-equation-box" style="font-family: var(--font-mono); font-size: 0.85rem; background: rgba(10, 14, 23, 0.9); padding: 0.65rem 1rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08); display: none;">
+                                <!-- Equation details -->
+                            </div>
+                        </div>
+
+                        <!-- Backtracking Results Card -->
+                        <div id="backtrack-result-card" class="glass-card" style="margin-top: 1.25rem; display: none; border-color: var(--accent-emerald);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <h4 style="color: var(--accent-emerald); font-size:1.05rem;">Optimal Items Selected</h4>
+                                <span class="badge badge-emerald">Backtrack Complete</span>
+                            </div>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.85rem;" id="backtrack-summary-text">
+                                Maximum profit achievable is <strong>7</strong> utilizing weight <strong>5 / 5</strong>.
+                            </p>
+                            <div id="backtrack-item-pills" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                                <!-- Item pills inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             4. DP TABLE CHALLENGE (MANUAL ASSESSMENT BENCH)
+             ============================================================== -->
+        <section id="challenge">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge badge-student" style="margin-bottom: 0.75rem;">
+                        <span>Interactive Challenge:</span> Manual DP Table Construction
+                    </div>
+                    <h2 class="section-title">The DP Table Challenge</h2>
+                    <p class="section-subtitle">
+                        "Solve a 0/1 Knapsack instance manually by filling the DP table and explain reuse of previously computed solutions." 
+                        Test your understanding by filling the blank cells in the table below using the recurrence relation.
+                    </p>
+                </div>
+
+                <div class="challenge-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+                        <div>
+                            <h3 style="font-size: 1.15rem; color: #fff;">Interactive Manual Assessment Bench</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);">
+                                Fill in the highlighted blank cells using <code>max(Exclude, Include + Value)</code>.
+                            </p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.78rem; color: var(--text-muted);">Accuracy Score</div>
+                            <div id="challenge-score" style="font-family: var(--font-mono); font-size: 1.35rem; font-weight: 800; color: var(--accent-cyan);">0 / 20 (0%)</div>
+                        </div>
+                    </div>
+
+                    <div class="dp-table-container">
+                        <table class="dp-matrix challenge-table" id="challenge-dp-table">
+                            <!-- Populated with editable inputs by JS -->
+                        </table>
+                    </div>
+
+                    <div class="challenge-actions">
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <button id="btn-challenge-check" class="btn btn-primary">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Verify Table Answers</span>
+                            </button>
+                            <button id="btn-challenge-hint" class="btn btn-secondary">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                <span>Show Cell Hint</span>
+                            </button>
+                            <button id="btn-challenge-autosolve" class="btn btn-secondary">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                <span>Auto-Fill Next Cell</span>
+                            </button>
+                        </div>
+
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button id="btn-challenge-reset" class="btn btn-secondary">Reset</button>
+                            <button id="btn-challenge-reveal" class="btn btn-secondary" style="border-color: rgba(245, 158, 11, 0.4); color: var(--accent-amber);">Reveal Solution</button>
+                        </div>
+                    </div>
+
+                    <!-- Hint / Feedback Callout -->
+                    <div id="challenge-feedback-box" style="margin-top: 1.25rem; padding: 1rem; border-radius: var(--radius-sm); font-size: 0.88rem; display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             5. SHORTEST PATHS: FLOYD-WARSHALL (SIMPLE & SHORT)
+             ============================================================== -->
+        <section id="floyd">
+            <div class="container">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <div class="badge badge-emerald" style="margin-bottom: 0.6rem;">
+                        <span>Graph DP Application</span> &bull; Student 3 Syllabus Topic
+                    </div>
+                    <h2 class="section-title">All-Pairs Shortest Path: Floyd-Warshall</h2>
+                    <p class="section-subtitle">
+                        A simple, concise demonstration of Dynamic Programming in graph theory. 
+                        Computes shortest paths between all pairs of vertices in $O(V^3)$ time via iterative state transitions.
+                    </p>
+                </div>
+
+                <div class="floyd-dashboard">
+                    <!-- Left: Graph SVG & Query Tool -->
+                    <div class="glass-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                            <h3 style="font-size:1.05rem; color:#fff;">4-Vertex Directed Graph</h3>
+                            <span class="badge badge-cyan" id="floyd-k-badge">Base Graph (k = 0)</span>
+                        </div>
+
+                        <!-- Graph SVG -->
+                        <div class="graph-svg-container" id="graph-svg-container">
+                            <svg id="floyd-graph-svg" width="100%" height="100%" viewBox="0 0 450 250">
+                                <defs>
+                                    <marker id="arrow" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+                                    </marker>
+                                    <marker id="arrow-active" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4" />
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+
+                        <!-- Recurrence Callout -->
+                        <div style="margin-top:0.75rem; background:rgba(10,14,23,0.8); border:1px solid rgba(16,185,129,0.25); border-left:3px solid var(--accent-emerald); border-radius:4px; padding:0.6rem 0.85rem; font-family:var(--font-mono); font-size:0.8rem; color:#d1fae5;">
+                            <strong>DP Recurrence:</strong><br>
+                            D<sup>(k)</sup>[i][j] = min( D<sup>(k-1)</sup>[i][j], D<sup>(k-1)</sup>[i][k] + D<sup>(k-1)</sup>[k][j] )
+                        </div>
+
+                        <!-- Interactive Shortest Path Query -->
+                        <div style="margin-top:0.75rem; display:flex; align-items:center; justify-content:space-between; gap:0.5rem; background:rgba(31,41,55,0.4); padding:0.5rem 0.8rem; border-radius:6px; font-size:0.82rem;">
+                            <span>Find Shortest Path:</span>
+                            <div style="display:flex; align-items:center; gap:0.4rem;">
+                                <select id="path-src" style="background:#0f172a; color:#fff; border:1px solid #334155; padding:0.2rem 0.4rem; border-radius:4px; font-size:0.78rem;">
+                                    <option value="0">Node 1</option>
+                                    <option value="1">Node 2</option>
+                                    <option value="2">Node 3</option>
+                                    <option value="3" selected>Node 4</option>
+                                </select>
+                                <span>&rarr;</span>
+                                <select id="path-dst" style="background:#0f172a; color:#fff; border:1px solid #334155; padding:0.2rem 0.4rem; border-radius:4px; font-size:0.78rem;">
+                                    <option value="0">Node 1</option>
+                                    <option value="1" selected>Node 2</option>
+                                    <option value="2">Node 3</option>
+                                    <option value="3">Node 4</option>
+                                </select>
+                                <button id="btn-find-path" class="btn btn-secondary btn-sm" style="padding:0.25rem 0.6rem; font-size:0.78rem;">Query</button>
+                            </div>
+                        </div>
+                        <div id="path-result-display" style="font-family:var(--font-mono); font-size:0.8rem; color:var(--accent-emerald); text-align:center; margin-top:0.35rem; min-height:18px;"></div>
+                    </div>
+
+                    <!-- Right: Distance Matrix D^(k) & Stepper -->
+                    <div class="glass-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                            <div>
+                                <h3 style="font-size:1.05rem; color:#fff;">Distance Matrix D<sup>(k)</sup></h3>
+                                <p style="font-size:0.78rem; color:var(--text-muted);">Step through intermediate nodes k = 0 to 4</p>
+                            </div>
+                            <div style="display:flex; gap:0.4rem;">
+                                <button id="btn-floyd-prev" class="ctrl-btn btn-sm" title="Previous k" style="width:32px; height:32px;">&larr;</button>
+                                <button id="btn-floyd-next" class="ctrl-btn btn-sm" title="Next k" style="width:32px; height:32px;">&rarr;</button>
+                            </div>
+                        </div>
+
+                        <div class="dp-table-container" style="padding:0.75rem;">
+                            <table class="dp-matrix floyd-matrix-table" id="floyd-table">
+                                <!-- Populated dynamically by JS -->
+                            </table>
+                        </div>
+
+                        <div id="floyd-step-explainer" style="margin-top:0.75rem; font-size:0.82rem; color:var(--text-secondary); line-height:1.5; background:rgba(10,14,23,0.7); padding:0.75rem; border-radius:6px; border:1px solid var(--border-color);">
+                            <!-- Detailed step text for intermediate vertex k -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             6. COMPLEXITY & BENCHMARKING
+             ============================================================== -->
+        <section id="benchmark">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge badge-student" style="margin-bottom: 0.75rem;">
+                        <span>Student 3 & 4:</span> Complexity Analysis & Optimization
+                    </div>
+                    <h2 class="section-title">Complexity Analysis & Benchmarks</h2>
+                    <p class="section-subtitle">
+                        Rigorous comparison between Brute Force Recursion, Top-Down Memoization, Bottom-Up Tabulation, and 1D Space-Optimized DP.
+                    </p>
+                </div>
+
+                <div class="benchmark-grid">
+                    <!-- Complexities List -->
+                    <div class="complexity-card-list">
+                        <div class="complexity-card">
+                            <div>
+                                <h4 style="color: #f87171; font-size:0.95rem;">Brute Force Recursion</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Explores all $2^N$ subsets; exponential overhead</p>
+                            </div>
+                            <div class="complexity-badge" style="background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.25);">
+                                Time: O(2<sup>N</sup>) &bull; Space: O(N)
+                            </div>
+                        </div>
+
+                        <div class="complexity-card">
+                            <div>
+                                <h4 style="color: #60a5fa; font-size:0.95rem;">Top-Down Memoization</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Evaluates subproblems on demand with table cache</p>
+                            </div>
+                            <div class="complexity-badge" style="background: rgba(96, 165, 250, 0.12); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.25);">
+                                Time: O(N &times; W) &bull; Space: O(N &times; W) + O(N)
+                            </div>
+                        </div>
+
+                        <div class="complexity-card">
+                            <div>
+                                <h4 style="color: #34d399; font-size:0.95rem;">Bottom-Up Tabulation</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Iterative matrix filling; no stack recursion</p>
+                            </div>
+                            <div class="complexity-badge" style="background: rgba(52, 211, 153, 0.12); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.25);">
+                                Time: O(N &times; W) &bull; Space: O(N &times; W)
+                            </div>
+                        </div>
+
+                        <div class="complexity-card">
+                            <div>
+                                <h4 style="color: var(--accent-cyan); font-size:0.95rem;">Space-Optimized DP (1D Array)</h4>
+                                <p style="font-size: 0.82rem; color: var(--text-muted);">Traverses backwards; compresses 2D matrix to 1 row</p>
+                            </div>
+                            <div class="complexity-badge" style="background: rgba(6, 182, 212, 0.12); color: var(--accent-cyan); border: 1px solid rgba(6, 182, 212, 0.25);">
+                                Time: O(N &times; W) &bull; Space: O(W)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Asymptotic Operations Simulator -->
+                    <div class="glass-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                            <h3 style="font-size: 1.15rem; color: #fff;">Asymptotic Operations Simulator</h3>
+                            <span class="badge badge-cyan">Live Math Model</span>
+                        </div>
+
+                        <div class="sim-slider-group">
+                            <div class="sim-slider-label">
+                                <span>Number of Items (N):</span>
+                                <strong id="sim-n-val" style="color: var(--accent-cyan); font-family: var(--font-mono);">24</strong>
+                            </div>
+                            <input type="range" id="sim-n-slider" min="5" max="32" value="24">
+                        </div>
+
+                        <div class="sim-slider-group">
+                            <div class="sim-slider-label">
+                                <span>Knapsack Capacity (W):</span>
+                                <strong id="sim-w-val" style="color: #a5b4fc; font-family: var(--font-mono);">50</strong>
+                            </div>
+                            <input type="range" id="sim-w-slider" min="10" max="200" value="50">
+                        </div>
+
+                        <div class="sim-metrics-display">
+                            <div class="sim-metric-box">
+                                <div style="font-size: 0.78rem; color: var(--text-muted);">Brute Force: 2<sup>N</sup> Ops</div>
+                                <div class="sim-metric-val val-danger" id="sim-ops-brute">16,777,216</div>
+                                <div style="font-size: 0.72rem; color: #f87171; margin-top: 0.25rem;">Exponential Explosion</div>
+                            </div>
+                            <div class="sim-metric-box">
+                                <div style="font-size: 0.78rem; color: var(--text-muted);">DP Table: N &times; W Ops</div>
+                                <div class="sim-metric-val val-optimal" id="sim-ops-dp">1,200</div>
+                                <div style="font-size: 0.72rem; color: #34d399; margin-top: 0.25rem;">13,981&times; Speedup!</div>
+                            </div>
+                        </div>
+
+                        <!-- Live JS Benchmark Runner -->
+                        <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <span style="font-size: 0.85rem; color: var(--text-secondary);">Live Execution Benchmark:</span>
+                                <button id="btn-run-live-bench" class="btn btn-secondary btn-sm">Run Benchmark</button>
+                            </div>
+                            <div id="live-bench-results" style="font-family: var(--font-mono); font-size: 0.8rem; color: #cbd5e1; background: rgba(10, 14, 23, 0.8); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.06);">
+                                Click "Run Benchmark" to execute both Brute Force and DP live in JavaScript.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================================
+             6. C SOURCE CODE REPOSITORY (PURE C ENGINE)
+             ============================================================== -->
+        <section id="source-code">
+            <div class="container">
+                <div class="section-header">
+                    <div class="badge badge-emerald" style="margin-bottom: 0.75rem;">Native Implementations</div>
+                    <h2 class="section-title">C Source Code Implementations</h2>
+                    <p class="section-subtitle">
+                        Clean, well-commented ANSI C code demonstrating all 4 paradigms of the 0/1 Knapsack Problem with sample test drivers.
+                    </p>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-tabs">
+                            <button class="code-tab-btn active" data-tab="tab-full">knapsack.c (Full Program)</button>
+                            <button class="code-tab-btn" data-tab="tab-rec">1. Recursion</button>
+                            <button class="code-tab-btn" data-tab="tab-memo">2. Memoization</button>
+                            <button class="code-tab-btn" data-tab="tab-tab">3. Tabulation</button>
+                            <button class="code-tab-btn" data-tab="tab-opt">4. Space-Optimized 1D</button>
+                            <button class="code-tab-btn" data-tab="tab-floyd">floyd_warshall.c (Graph DP)</button>
+                        </div>
+                        <button id="btn-copy-code" class="btn btn-secondary btn-sm">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            <span>Copy Code</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 1: knapsack.c (Full Program) -->
+                    <pre class="code-block" id="tab-full"><code><span class="tok-com">/* ============================================================================
+ * Dynamic Programming Optimization Toolkit - 0/1 Knapsack in Pure C
+ * Compiles cleanly with: gcc -O2 knapsack.c -o knapsack
+ * ============================================================================ */</span>
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;stdio.h&gt;</span>
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;stdlib.h&gt;</span>
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;string.h&gt;</span>
+
+<span class="tok-kw">typedef struct</span> {
+    <span class="tok-type">int</span> id, weight, value;
+} <span class="tok-type">Item</span>;
+
+<span class="tok-kw">static inline</span> <span class="tok-type">int</span> <span class="tok-fn">max</span>(<span class="tok-type">int</span> a, <span class="tok-type">int</span> b) { <span class="tok-kw">return</span> (a &gt; b) ? a : b; }
+
+<span class="tok-com">/* 1. Naive Recursion: O(2^N) Time, O(N) Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackRecursive</span>(<span class="tok-type">int</span> i, <span class="tok-type">int</span> w, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[]) {
+    <span class="tok-kw">if</span> (i &lt; <span class="tok-num">0</span> || w &lt;= <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+    <span class="tok-kw">if</span> (items[i].weight &gt; w)
+        <span class="tok-kw">return</span> <span class="tok-fn">knapsackRecursive</span>(i - <span class="tok-num">1</span>, w, items);
+    
+    <span class="tok-type">int</span> exclude = <span class="tok-fn">knapsackRecursive</span>(i - <span class="tok-num">1</span>, w, items);
+    <span class="tok-type">int</span> include = items[i].value + <span class="tok-fn">knapsackRecursive</span>(i - <span class="tok-num">1</span>, w - items[i].weight, items);
+    <span class="tok-kw">return</span> <span class="tok-fn">max</span>(exclude, include);
+}
+
+<span class="tok-com">/* 2. Top-Down Memoization: O(N * W) Time &amp; Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackMemoized</span>(<span class="tok-type">int</span> i, <span class="tok-type">int</span> w, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[], <span class="tok-type">int</span> memo[][<span class="tok-num">101</span>]) {
+    <span class="tok-kw">if</span> (i &lt; <span class="tok-num">0</span> || w &lt;= <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+    <span class="tok-kw">if</span> (memo[i][w] != -<span class="tok-num">1</span>) <span class="tok-kw">return</span> memo[i][w];
+    <span class="tok-kw">if</span> (items[i].weight &gt; w)
+        <span class="tok-kw">return</span> memo[i][w] = <span class="tok-fn">knapsackMemoized</span>(i - <span class="tok-num">1</span>, w, items, memo);
+
+    <span class="tok-type">int</span> exclude = <span class="tok-fn">knapsackMemoized</span>(i - <span class="tok-num">1</span>, w, items, memo);
+    <span class="tok-type">int</span> include = items[i].value + <span class="tok-fn">knapsackMemoized</span>(i - <span class="tok-num">1</span>, w - items[i].weight, items, memo);
+    <span class="tok-kw">return</span> memo[i][w] = <span class="tok-fn">max</span>(exclude, include);
+}
+
+<span class="tok-com">/* 3. Bottom-Up Tabulation (2D Table) with Backtracking */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackTabulation</span>(<span class="tok-type">int</span> n, <span class="tok-type">int</span> W, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[], <span class="tok-type">int</span> chosen[], <span class="tok-type">int</span> *chosenCount) {
+    <span class="tok-type">int</span> dp[<span class="tok-num">51</span>][<span class="tok-num">101</span>];
+    <span class="tok-fn">memset</span>(dp, <span class="tok-num">0</span>, <span class="tok-kw">sizeof</span>(dp));
+
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">1</span>; i &lt;= n; i++) {
+        <span class="tok-type">int</span> wt = items[i - <span class="tok-num">1</span>].weight;
+        <span class="tok-type">int</span> val = items[i - <span class="tok-num">1</span>].value;
+        <span class="tok-kw">for</span> (<span class="tok-type">int</span> w = <span class="tok-num">0</span>; w &lt;= W; w++) {
+            <span class="tok-kw">if</span> (wt &gt; w) dp[i][w] = dp[i - <span class="tok-num">1</span>][w];
+            <span class="tok-kw">else</span> dp[i][w] = <span class="tok-fn">max</span>(dp[i - <span class="tok-num">1</span>][w], dp[i - <span class="tok-num">1</span>][w - wt] + val);
+        }
+    }
+
+    <span class="tok-com">/* Backtrack selected items */</span>
+    *chosenCount = <span class="tok-num">0</span>;
+    <span class="tok-type">int</span> currW = W;
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = n; i &gt; <span class="tok-num">0</span>; i--) {
+        <span class="tok-kw">if</span> (dp[i][currW] != dp[i - <span class="tok-num">1</span>][currW]) {
+            chosen[(*chosenCount)++] = items[i - <span class="tok-num">1</span>].id;
+            currW -= items[i - <span class="tok-num">1</span>].weight;
+        }
+    }
+    <span class="tok-kw">return</span> dp[n][W];
+}
+
+<span class="tok-com">/* 4. Space-Optimized Tabulation: O(W) Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackSpaceOptimized</span>(<span class="tok-type">int</span> n, <span class="tok-type">int</span> W, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[]) {
+    <span class="tok-type">int</span> dp[<span class="tok-num">101</span>] = {<span class="tok-num">0</span>};
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; n; i++) {
+        <span class="tok-kw">for</span> (<span class="tok-type">int</span> w = W; w &gt;= items[i].weight; w--) {
+            dp[w] = <span class="tok-fn">max</span>(dp[w], dp[w - items[i].weight] + items[i].value);
+        }
+    }
+    <span class="tok-kw">return</span> dp[W];
+}
+
+<span class="tok-type">int</span> <span class="tok-fn">main</span>(<span class="tok-type">void</span>) {
+    <span class="tok-type">Item</span> items[] = { {<span class="tok-num">1</span>,<span class="tok-num">2</span>,<span class="tok-num">3</span>}, {<span class="tok-num">2</span>,<span class="tok-num">3</span>,<span class="tok-num">4</span>}, {<span class="tok-num">3</span>,<span class="tok-num">4</span>,<span class="tok-num">5</span>}, {<span class="tok-num">4</span>,<span class="tok-num">5</span>,<span class="tok-num">6</span>} };
+    <span class="tok-type">int</span> n = <span class="tok-num">4</span>, W = <span class="tok-num">5</span>, chosen[<span class="tok-num">10</span>], count = <span class="tok-num">0</span>;
+    <span class="tok-type">int</span> ans = <span class="tok-fn">knapsackTabulation</span>(n, W, items, chosen, &amp;count);
+    <span class="tok-fn">printf</span>(<span class="tok-str">"Optimal Max Profit: %d\n"</span>, ans);
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre>
+
+                    <!-- Tab 2: Recursion -->
+                    <pre class="code-block" id="tab-rec" style="display: none;"><code><span class="tok-com">/* 1. Naive Recursion in C: O(2^N) Time, O(N) Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackRecursive</span>(<span class="tok-type">int</span> i, <span class="tok-type">int</span> w, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[]) {
+    <span class="tok-com">// Base Case: No items or no capacity left</span>
+    <span class="tok-kw">if</span> (i &lt; <span class="tok-num">0</span> || w &lt;= <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+
+    <span class="tok-com">// If item weight exceeds capacity, it cannot be included</span>
+    <span class="tok-kw">if</span> (items[i].weight &gt; w)
+        <span class="tok-kw">return</span> <span class="tok-fn">knapsackRecursive</span>(i - <span class="tok-num">1</span>, w, items);
+
+    <span class="tok-com">// Take maximum of excluding vs including</span>
+    <span class="tok-type">int</span> exclude = <span class="tok-fn">knapsackRecursive</span>(i - <span class="tok-num">1</span>, w, items);
+    <span class="tok-type">int</span> include = items[i].value + <span class="tok-fn">knapsackRecursive</span>(i - <span class="tok-num">1</span>, w - items[i].weight, items);
+
+    <span class="tok-kw">return</span> <span class="tok-fn">max</span>(exclude, include);
+}</code></pre>
+
+                    <!-- Tab 3: Memoization -->
+                    <pre class="code-block" id="tab-memo" style="display: none;"><code><span class="tok-com">/* 2. Top-Down Memoization in C: O(N * W) Time, O(N * W) Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackMemoized</span>(<span class="tok-type">int</span> i, <span class="tok-type">int</span> w, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[], <span class="tok-type">int</span> memo[][<span class="tok-num">101</span>]) {
+    <span class="tok-kw">if</span> (i &lt; <span class="tok-num">0</span> || w &lt;= <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+
+    <span class="tok-com">// Return cached answer if previously computed</span>
+    <span class="tok-kw">if</span> (memo[i][w] != -<span class="tok-num">1</span>) <span class="tok-kw">return</span> memo[i][w];
+
+    <span class="tok-kw">if</span> (items[i].weight &gt; w)
+        <span class="tok-kw">return</span> memo[i][w] = <span class="tok-fn">knapsackMemoized</span>(i - <span class="tok-num">1</span>, w, items, memo);
+
+    <span class="tok-type">int</span> exclude = <span class="tok-fn">knapsackMemoized</span>(i - <span class="tok-num">1</span>, w, items, memo);
+    <span class="tok-type">int</span> include = items[i].value + <span class="tok-fn">knapsackMemoized</span>(i - <span class="tok-num">1</span>, w - items[i].weight, items, memo);
+
+    <span class="tok-kw">return</span> memo[i][w] = <span class="tok-fn">max</span>(exclude, include);
+}</code></pre>
+
+                    <!-- Tab 4: Tabulation -->
+                    <pre class="code-block" id="tab-tab" style="display: none;"><code><span class="tok-com">/* 3. Bottom-Up Tabulation in C: O(N * W) Time &amp; Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackTabulation</span>(<span class="tok-type">int</span> n, <span class="tok-type">int</span> W, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[], <span class="tok-type">int</span> chosen[], <span class="tok-type">int</span> *chosenCount) {
+    <span class="tok-type">int</span> dp[<span class="tok-num">51</span>][<span class="tok-num">101</span>];
+    <span class="tok-fn">memset</span>(dp, <span class="tok-num">0</span>, <span class="tok-kw">sizeof</span>(dp));
+
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">1</span>; i &lt;= n; i++) {
+        <span class="tok-type">int</span> wt = items[i - <span class="tok-num">1</span>].weight;
+        <span class="tok-type">int</span> val = items[i - <span class="tok-num">1</span>].value;
+        <span class="tok-kw">for</span> (<span class="tok-type">int</span> w = <span class="tok-num">0</span>; w &lt;= W; w++) {
+            <span class="tok-kw">if</span> (wt &gt; w) {
+                dp[i][w] = dp[i - <span class="tok-num">1</span>][w];
+            } <span class="tok-kw">else</span> {
+                dp[i][w] = <span class="tok-fn">max</span>(dp[i - <span class="tok-num">1</span>][w], dp[i - <span class="tok-num">1</span>][w - wt] + val);
+            }
+        }
+    }
+
+    <span class="tok-com">/* Backtracking to identify chosen items */</span>
+    *chosenCount = <span class="tok-num">0</span>;
+    <span class="tok-type">int</span> currW = W;
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = n; i &gt; <span class="tok-num">0</span>; i--) {
+        <span class="tok-kw">if</span> (dp[i][currW] != dp[i - <span class="tok-num">1</span>][currW]) {
+            chosen[(*chosenCount)++] = items[i - <span class="tok-num">1</span>].id;
+            currW -= items[i - <span class="tok-num">1</span>].weight;
+        }
+    }
+    <span class="tok-kw">return</span> dp[n][W];
+}</code></pre>
+
+                    <!-- Tab 5: Space Optimized -->
+                    <pre class="code-block" id="tab-opt" style="display: none;"><code><span class="tok-com">/* 4. Space-Optimized Tabulation in C: O(N * W) Time, O(W) Space */</span>
+<span class="tok-type">int</span> <span class="tok-fn">knapsackSpaceOptimized</span>(<span class="tok-type">int</span> n, <span class="tok-type">int</span> W, <span class="tok-kw">const</span> <span class="tok-type">Item</span> items[]) {
+    <span class="tok-type">int</span> dp[<span class="tok-num">101</span>] = {<span class="tok-num">0</span>};
+
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; n; i++) {
+        <span class="tok-com">// Traverse backwards from W down to item weight</span>
+        <span class="tok-kw">for</span> (<span class="tok-type">int</span> w = W; w &gt;= items[i].weight; w--) {
+            dp[w] = <span class="tok-fn">max</span>(dp[w], dp[w - items[i].weight] + items[i].value);
+        }
+    }
+
+    <span class="tok-kw">return</span> dp[W];
+}</code></pre>
+
+                    <!-- Tab 6: floyd_warshall.c (Graph DP) -->
+                    <pre class="code-block" id="tab-floyd" style="display: none;"><code><span class="tok-com">/* ============================================================================
+ * Dynamic Programming Optimization Toolkit - Floyd-Warshall in Pure C
+ * All-Pairs Shortest Path: O(V^3) Time, O(V^2) Space
+ * Compiles cleanly with: gcc -O2 floyd_warshall.c -o floyd_warshall
+ * ============================================================================ */</span>
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;stdio.h&gt;</span>
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;stdlib.h&gt;</span>
+
+<span class="tok-kw">#define</span> V <span class="tok-num">4</span>
+<span class="tok-kw">#define</span> INF <span class="tok-num">99999</span>
+
+<span class="tok-com">/* Triple nested Dynamic Programming loops */</span>
+<span class="tok-type">void</span> <span class="tok-fn">floydWarshall</span>(<span class="tok-type">int</span> dist[V][V], <span class="tok-type">int</span> nextNode[V][V]) {
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> k = <span class="tok-num">0</span>; k &lt; V; k++) {
+        <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; V; i++) {
+            <span class="tok-kw">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; V; j++) {
+                <span class="tok-kw">if</span> (dist[i][k] &lt; INF &amp;&amp; dist[k][j] &lt; INF) {
+                    <span class="tok-kw">if</span> (dist[i][k] + dist[k][j] &lt; dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                        nextNode[i][j] = nextNode[i][k];
+                    }
+                }
+            }
+        }
+    }
+}
+
+<span class="tok-type">int</span> <span class="tok-fn">main</span>(<span class="tok-type">void</span>) {
+    <span class="tok-type">int</span> dist[V][V] = {
+        {<span class="tok-num">0</span>,   <span class="tok-num">3</span>,   INF, <span class="tok-num">7</span>  },
+        {<span class="tok-num">8</span>,   <span class="tok-num">0</span>,   <span class="tok-num">2</span>,   INF},
+        {<span class="tok-num">5</span>,   INF, <span class="tok-num">0</span>,   <span class="tok-num">1</span>  },
+        {<span class="tok-num">2</span>,   INF, INF, <span class="tok-num">0</span>  }
+    };
+    <span class="tok-type">int</span> nextNode[V][V];
+    <span class="tok-kw">for</span> (<span class="tok-type">int</span> i = <span class="tok-num">0</span>; i &lt; V; i++)
+        <span class="tok-kw">for</span> (<span class="tok-type">int</span> j = <span class="tok-num">0</span>; j &lt; V; j++)
+            nextNode[i][j] = (i != j &amp;&amp; dist[i][j] &lt; INF / <span class="tok-num">2</span>) ? j : -<span class="tok-num">1</span>;
+
+    <span class="tok-fn">floydWarshall</span>(dist, nextNode);
+    <span class="tok-fn">printf</span>(<span class="tok-str">"All-pairs shortest paths computed in O(V^3) time!\n"</span>);
+    <span class="tok-kw">return</span> <span class="tok-num">0</span>;
+}</code></pre>
+                </div>
+
+                <!-- Compilation instructions callout -->
+                <div style="margin-top: 1.25rem; padding: 1rem; background: rgba(17, 24, 39, 0.7); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <span>Compile and execute in terminal:</span>
+                    <code style="color: var(--accent-cyan); font-family: var(--font-mono); background: rgba(0,0,0,0.4); padding: 0.3rem 0.6rem; border-radius: 4px;">gcc -O2 knapsack.c -o knapsack &amp;&amp; ./knapsack</code>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==============================================================
+         7. FULLSCREEN PRESENTATION DECK OVERLAY (PRESS 'P')
+         ============================================================== -->
+    <div id="presentation-overlay">
+        <div class="pres-header">
+            <div class="pres-title-group">
+                <h3>Dynamic Programming Optimization Toolkit</h3>
+                <p>DAA College Presentation &bull; Group 12</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <span class="badge badge-cyan" id="pres-slide-counter">Slide 1 / 9</span>
+                <button id="btn-toggle-notes" class="btn btn-secondary btn-sm">Notes (N)</button>
+                <button id="btn-close-presentation" class="btn btn-secondary btn-sm">&times; Exit (Esc)</button>
+            </div>
+        </div>
+
+        <div class="pres-viewport">
+            <div class="slide-card" id="active-slide-card">
+                <!-- Slide content inserted dynamically by JS -->
+            </div>
+        </div>
+
+        <div class="pres-footer">
+            <div style="font-size: 0.82rem; color: var(--text-muted);">
+                Tip: Use <strong>&larr; / &rarr;</strong> or <strong>Spacebar</strong> to navigate &bull; Press <strong>N</strong> for speaker talking notes
+            </div>
+            <div class="pres-nav-controls">
+                <button id="btn-pres-prev" class="pres-nav-btn">&larr; Previous</button>
+                <button id="btn-pres-next" class="pres-nav-btn">Next &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==============================================================
+         8. FOOTER
+         ============================================================== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="brand" style="margin-bottom: 0.75rem;">
+                        <div class="brand-icon">DP</div>
+                        <span>Dynamic Programming Optimization Toolkit</span>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); max-width: 480px; line-height: 1.6;">
+                        Design and Analysis of Algorithms (DAA) Project Presentation. 
+                        Featuring step-by-step 0/1 Knapsack table construction, manual interactive challenges, asymptotic complexity proofs, and native C implementations.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">Group 12 Members</h4>
+                    <ul style="list-style: none; font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.45rem; color: var(--text-muted);">
+                        <li><strong style="color:var(--accent-cyan);">A. PAVAN KUMAR</strong> (AP25110100011)</li>
+                        <li><strong style="color:#60a5fa;">SATHWIK. M</strong> (AP25110100015)</li>
+                        <li><strong style="color:var(--accent-emerald);">B. JITHENDRA</strong> (AP25110100026)</li>
+                        <li><strong style="color:var(--accent-amber);">DARSI BHARANI</strong> (AP25110100027)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 style="color: #fff; margin-bottom: 0.75rem; font-size: 0.92rem;">Quick Navigation</h4>
+                    <ul style="list-style: none; font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.4rem; color: var(--text-muted);">
+                        <li><a href="#knapsack" style="color: inherit; text-decoration: none;">Knapsack Visualizer</a></li>
+                        <li><a href="#challenge" style="color: inherit; text-decoration: none;">Interactive Table Challenge</a></li>
+                        <li><a href="#benchmark" style="color: inherit; text-decoration: none;">Complexity Analysis</a></li>
+                        <li><a href="#source-code" style="color: inherit; text-decoration: none;">C Source Files</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 DAA Group 12 &bull; Pure C Engine &amp; Modern Interactive Web Dashboard</p>
+                <button onclick="window.print()" class="btn btn-secondary btn-sm">Print Presentation Handout</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>

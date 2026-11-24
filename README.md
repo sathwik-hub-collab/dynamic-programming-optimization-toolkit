@@ -1,222 +1,100 @@
-# dynamic-programming-optimization-toolkit
-An interactive toolkit demonstrating Dynamic Programming optimization techniques, including 0/1 Knapsack, DP table construction, shortest path algorithms, and performance comparison.
-
 # Dynamic Programming Optimization Toolkit
 
-An interactive and educational toolkit designed to demonstrate and visualize important Dynamic Programming (DP) optimization techniques. This project is developed as part of a Design and Analysis of Algorithms (DAA) academic project.
-
-The toolkit helps students understand how Dynamic Programming works through algorithm implementations, step-by-step explanations, DP table construction, output demonstrations, and comparisons of optimization techniques.
-
-## Project Overview
-
-Dynamic Programming is an algorithmic technique that solves complex problems by breaking them into smaller overlapping subproblems and storing their results to avoid repeated calculations.
-
-The **Dynamic Programming Optimization Toolkit** demonstrates how DP can be applied to optimization problems such as the 0/1 Knapsack Problem and shortest path problems.
-
-The project aims to make algorithm learning easier through practical examples, visual explanations, and interactive demonstrations.
-
-## Objectives
-
-- Understand the fundamental concepts of Dynamic Programming.
-- Implement the 0/1 Knapsack Problem using Dynamic Programming.
-- Demonstrate DP table construction step by step.
-- Explore shortest path algorithms using Dynamic Programming.
-- Compare different algorithmic approaches and their results.
-- Integrate the demonstrations into one educational optimization toolkit.
-
-## Main Modules
-
-### 1. 0/1 Knapsack Problem
-
-The 0/1 Knapsack Problem is an optimization problem in which a set of items has individual weights and values. The objective is to select items to maximize the total value without exceeding the capacity of the knapsack.
-
-Each item can either be selected completely or excluded. Items cannot be divided.
-
-**Example:**
-
-| Item | Weight | Value |
-|---|---:|---:|
-| 1 | 2 | 3 |
-| 2 | 3 | 4 |
-| 3 | 4 | 5 |
-| 4 | 5 | 6 |
-
-Knapsack capacity = 5
-
-**Optimal result:**
-- Selected items: Item 1 and Item 2
-- Total weight: 5
-- Maximum value: 7
-
-**Dynamic Programming recurrence:**
-
-- If there are no items or capacity is zero, the result is zero.
-- If the current item exceeds the available capacity, exclude it.
-- Otherwise, compare including and excluding the current item and select the maximum value.
-
-Time Complexity: O(n × W)  
-Space Complexity: O(n × W)
-
-### 2. DP Table Construction
-
-This module demonstrates how a Dynamic Programming table is created and filled.
-
-The table stores the maximum value achievable using the first `i` items with a knapsack capacity of `w`.
-
-For the sample Knapsack problem, the DP table is:
-
-| Items / Capacity | 0 | 1 | 2 | 3 | 4 | 5 |
-|---|---:|---:|---:|---:|---:|---:|
-| 0 items | 0 | 0 | 0 | 0 | 0 | 0 |
-| Item 1 | 0 | 0 | 3 | 3 | 3 | 3 |
-| Items 1, 2 | 0 | 0 | 3 | 4 | 4 | 7 |
-| Items 1, 2, 3 | 0 | 0 | 3 | 4 | 5 | 7 |
-| Items 1, 2, 3, 4 | 0 | 0 | 3 | 4 | 5 | 7 |
-
-This module explains:
-- Base case initialization.
-- How rows and columns represent items and capacities.
-- Include and exclude decisions.
-- How each cell is calculated.
-- How the final answer is obtained from the table.
-
-### 3. Shortest Path Using Dynamic Programming
-
-This module demonstrates the application of Dynamic Programming to shortest path problems.
-
-The Floyd–Warshall algorithm is used to find the shortest distances between every pair of vertices in a weighted graph.
-
-**Key concepts:**
-- Graph representation using an adjacency matrix.
-- Distance matrix initialization.
-- Intermediate vertex selection.
-- Distance updates using the Floyd–Warshall recurrence.
-- Final shortest distance matrix.
-
-**Recurrence relation:**
-
-`dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])`
-
-Time Complexity: O(V³)  
-Space Complexity: O(V²)
-
-### 4. Comparison and Toolkit Integration
-
-This module brings the individual demonstrations together and compares their algorithmic behavior.
-
-It includes:
-- Comparison of Dynamic Programming applications.
-- Time and space complexity analysis.
-- Comparison of input, output, and results.
-- Explanation of how Dynamic Programming improves problem-solving efficiency.
-- Integration of the modules into one toolkit.
-
-## Technologies Used
-
-- **Programming Language:** C
-- **Frontend:** HTML, CSS, JavaScript (if using a web-based interface)
-- **Algorithms:** Dynamic Programming, 0/1 Knapsack, Floyd–Warshall
-- **Development Tools:** Code editor and C compiler
-- **Version Control:** Git and GitHub
-
-## Suggested Project Structure
-
-```text
-dynamic-programming-optimization-toolkit/
-│
-├── README.md
-│
-├── knapsack/
-│   ├── knapsack.c
-│   ├── pseudocode.txt
-│   └── output.txt
-│
-├── dp-table/
-│   ├── table-example.txt
-│   └── explanation.md
-│
-├── shortest-path/
-│   ├── floyd_warshall.c
-│   ├── pseudocode.txt
-│   └── output.txt
-│
-├── comparison/
-│   └── complexity-analysis.md
-│
-├── docs/
-│   ├── project-overview.md
-│   └── presentation-notes.md
-│
-└── assets/
-    └── screenshots/
-```
-
-## How to Run
-
-### Run the 0/1 Knapsack Program
-
-1. Open the project folder.
-2. Navigate to the `knapsack` directory.
-3. Compile the C program:
-
-```bash
-gcc knapsack.c -o knapsack
-```
-
-4. Execute the program:
-
-```bash
-./knapsack
-```
-
-### Expected Output
-
-```text
-Maximum value = 7
-Selected items: 2 1
-```
-
-### Run the Floyd–Warshall Program
-
-1. Navigate to the `shortest-path` directory.
-2. Compile the program:
-
-```bash
-gcc floyd_warshall.c -o floyd
-```
-
-3. Execute the program:
-
-```bash
-./floyd
-```
-
-## Learning Outcomes
-
-After exploring this toolkit, students will be able to:
-
-- Explain the concept and properties of Dynamic Programming.
-- Identify overlapping subproblems and optimal substructure.
-- Implement optimization algorithms using C.
-- Construct and interpret DP tables.
-- Understand shortest path calculations using Floyd–Warshall.
-- Analyze time and space complexity.
-- Compare algorithmic approaches and their results.
-
-## Project Team Contributions
-
-| Module | Contribution |
-|---|---|
-| Student 1 | Formulate and implement 0/1 Knapsack |
-| Student 2 | Demonstrate DP table construction |
-| Student 3 | Demonstrate another DP application, such as shortest paths |
-| Student 4 | Compare results and integrate the DP Optimization Toolkit |
-
-## Conclusion
-
-The Dynamic Programming Optimization Toolkit provides a practical way to understand and demonstrate Dynamic Programming concepts. By combining algorithm implementations, DP table demonstrations, shortest path calculations, and complexity comparisons, the project makes optimization techniques easier to learn and understand.
+**DAA College Capstone Project &bull; Group 12**  
+*Course:* Design and Analysis of Algorithms (DAA)  
+*Primary Demonstration:* 0/1 Knapsack Problem Optimization  
+*Secondary Demonstration:* All-Pairs Shortest Path (Floyd-Warshall)  
+*Implementation Language:* Pure ANSI C  
 
 ---
 
-**Academic Project:** Design and Analysis of Algorithms (DAA)  
-**Project Title:** Dynamic Programming Optimization Toolkit
+## Quick Start
+
+1. Open **`index.html`** in any modern web browser (Google Chrome, Microsoft Edge, Brave, Firefox).
+   * **Zero installation / No web server required:** Double-click `index.html` directly from your desktop.
+2. Press **`P`** at any time to launch the **Fullscreen Presentation Slide Deck** (9 slides).
+3. Press **`N`** while in presentation mode to toggle **Speaker Talking Notes** for each student.
+
+---
+
+## Group 12 Project Allotment & Role Breakdown
+
+As per the college evaluation rubrics:
+
+| Student | Assigned Role & Deliverables | Features Demonstrated in Toolkit |
+|---|---|---|
+| **A. PAVAN KUMAR**<br>`AP25110100011` | **Student 1: Formulate 0/1 Knapsack Problem** | Mathematical recurrence, boundary conditions, why greedy fails, and naive recursion in C. |
+| **SATHWIK. M**<br>`AP25110100015` | **Student 2: Demonstrate DP Table Construction** | Interactive 2D matrix visualizer, row-by-row state construction, cell dependency highlights, and the **Manual DP Table Challenge**. |
+| **B. JITHENDRA**<br>`AP25110100026` | **Student 3: Explain Subproblem Reuse & Shortest Paths** | Visualizing how cached cells eliminate redundant branches, backtracking item recovery trace ({Item 1, Item 2}), and **All-Pairs Shortest Path (Floyd-Warshall)** visualizer. |
+| **DARSI BHARANI**<br>`AP25110100027` | **Student 4: Complexity Analysis & Space Optimization** | $O(2^N) \to O(N \cdot W)$ operations proof, 1D array space compression ($O(W)$), empirical benchmarks, and Pure C engine integration. |
+
+---
+
+## Sample Dataset Walkthrough (0/1 Knapsack)
+
+* **Knapsack Capacity ($W$):** 5  
+* **Available Items:**
+  * **Item 1:** Weight = 2, Value = 3 (Ratio: 1.50)
+  * **Item 2:** Weight = 3, Value = 4 (Ratio: 1.33)
+  * **Item 3:** Weight = 4, Value = 5 (Ratio: 1.25)
+  * **Item 4:** Weight = 5, Value = 6 (Ratio: 1.20)
+
+### Mathematical Recurrence:
+$$DP[i][w] = \begin{cases} 
+DP[i-1][w] & \text{if } wt[i] > w \\ 
+\max(DP[i-1][w], \; DP[i-1][w - wt[i]] + val[i]) & \text{otherwise} 
+\end{cases}$$
+
+### Complete DP Table ($5 \times 6$):
+| Items $\backslash$ W | w = 0 | w = 1 | w = 2 | w = 3 | w = 4 | w = 5 |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **0 (None)** | 0 | 0 | 0 | 0 | 0 | 0 |
+| **Item 1 (w:2, v:3)** | 0 | 0 | 3 | 3 | 3 | 3 |
+| **Item 2 (w:3, v:4)** | 0 | 0 | 3 | 4 | 4 | **7** |
+| **Item 3 (w:4, v:5)** | 0 | 0 | 3 | 4 | 5 | **7** |
+| **Item 4 (w:5, v:6)** | 0 | 0 | 3 | 4 | 5 | **7** |
+
+* **Optimal Profit:** **7**
+* **Optimal Selection:** **Item 1 (Weight 2) + Item 2 (Weight 3)** (Total Weight = 5 / 5)
+
+---
+
+## Secondary Demonstration: Floyd-Warshall (Graph DP)
+
+* **Vertices:** 4 ($V = 4$)
+* **Time Complexity:** $O(V^3)$
+* **Space Complexity:** $O(V^2)$
+* **DP Recurrence:**
+  $$D^{(k)}[i][j] = \min\left( D^{(k-1)}[i][j],\; D^{(k-1)}[i][k] + D^{(k-1)}[k][j] \right)$$
+* **Interactive Tool:** Live matrix stepper through intermediate pivots $k = 0 \dots 4$ with SVG directed graph and instant path query tool!
+
+---
+
+## Compiling & Running the C Source Code
+
+The ANSI C programs are self-contained and compile with any standard C compiler:
+
+### 1. 0/1 Knapsack (`knapsack.c`):
+```bash
+gcc -O2 knapsack.c -o knapsack
+./knapsack
+```
+
+### 2. Floyd-Warshall (`floyd_warshall.c`):
+```bash
+gcc -O2 floyd_warshall.c -o floyd_warshall
+./floyd_warshall
+```
+
+---
+
+## Presentation Keyboard Shortcuts
+
+| Shortcut Key | Action |
+|---|---|
+| **`P`** | Toggle Fullscreen Presentation Slides |
+| **`N`** | Toggle Speaker Talking Points / Notes |
+| **`&rarr;` / `Space`** | Next Slide |
+| **`&larr;`** | Previous Slide |
+| **`Esc`** | Exit Presentation Mode |
+| **`Ctrl + P`** | Print / Save Clean PDF Report Handout |
